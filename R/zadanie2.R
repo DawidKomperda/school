@@ -1,0 +1,35 @@
+#Zadanie 2
+E1_1 <- c(81, 17, 7, 55, 2, 98, 71, 47, 19, 8, 3, 10, 28, 65, 80)
+print("Zawartosc E1_1")
+print(E1_1)
+print("Liczba elementow:")
+print(length(E1_1))
+print("Typ obiektu:")
+print(class(E1_1))
+print("Struktura obiektu:")
+str(E1_1)
+print("Zawartosc E1_1")
+print(E1_1)
+print("Posortowane wartosci")
+E1_1 <- sort(E1_1)
+print("Zawartosc E1_1")
+print(E1_1)
+print("Mediana E1_1")
+print(median(E1_1))
+
+# b) Wartosci maxymalne i minimalne
+print("Minmum E1_1")
+print(min(E1_1))
+print("Maximum E1_1")
+print(max(E1_1))
+print("Suma E1_1")
+print(sum(E1_1))
+print("Mediana E1_1")
+print(mean(E1_1))
+print("dlugosc E1_1")
+print(length(E1_1))
+
+# Zadanie 3 
+#Obliczanie sredniej E1_1
+print("Obliczanie sredniej")
+print(sum(E1_1)/length(E1_1))
