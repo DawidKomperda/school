@@ -1,237 +1,177 @@
 #include <iostream>
-#include <cassert>
-#include "lista.h"
 
 using namespace std;
 
-void testInsertAtBeginning() {
-    cout << "Testing insertAtBeginning..." << endl;
-    LinkedList list;
-    
-    list.insertAtBeginning(10);
-    assert(list.getSize() == 1);
-    
-    list.insertAtBeginning(20);
-    assert(list.getSize() == 2);
-    
-    list.insertAtBeginning(30);
-    assert(list.getSize() == 3);
-    
-    cout << "insertAtBeginning tests passed!" << endl;
-}
+// Zadanie 1
+class Element {
+private:
+    int v;
+    Element* next;
+    Element* prev;
 
-void testInsertAtEnd() {
-    cout << "Testing insertAtEnd..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(10);
-    assert(list.getSize() == 1);
-    
-    list.insertAtEnd(20);
-    assert(list.getSize() == 2);
-    
-    list.insertAtEnd(30);
-    assert(list.getSize() == 3);
-    
-    cout << "insertAtEnd tests passed!" << endl;
-}
+public:
+    Element(int x, Element* next, Element* prev) {
+        this->v = x;
+        this->next = next;
+        this->prev = prev;
+    }
 
-void testInsertAtPosition() {
-    cout << "Testing insertAtPosition..." << endl;
-    LinkedList list;
-    
-    // Insert at position 0 (empty list)
-    list.insertAtPosition(10, 0);
-    assert(list.getSize() == 1);
-    
-    // Insert at end
-    list.insertAtPosition(30, 1);
-    assert(list.getSize() == 2);
-    
-    // Insert in middle
-    list.insertAtPosition(20, 1);
-    assert(list.getSize() == 3);
-    
-    // Insert at beginning
-    list.insertAtPosition(5, 0);
-    assert(list.getSize() == 4);
-    
-    cout << "insertAtPosition tests passed!" << endl;
-}
+    int getValue() { return v; }
+    void setValue(int v) { this->v = v; }
+    Element* getNext() { return next; }
+    Element* getPrev() { return prev; }
+    void setNext(Element* p) { next = p; }
+    void setPrev(Element* p) { prev = p; }
+};
 
-void testDeleteAtBeginning() {
-    cout << "Testing deleteAtBeginning..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(10);
-    list.insertAtEnd(20);
-    list.insertAtEnd(30);
-    
-    list.deleteAtBeginning();
-    assert(list.getSize() == 2);
-    
-    list.deleteAtBeginning();
-    assert(list.getSize() == 1);
-    
-    list.deleteAtBeginning();
-    assert(list.getSize() == 0);
-    
-    // Delete from empty list (should handle gracefully)
-    list.deleteAtBeginning();
-    assert(list.getSize() == 0);
-    
-    cout << "deleteAtBeginning tests passed!" << endl;
-}
 
-void testDeleteAtEnd() {
-    cout << "Testing deleteAtEnd..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(10);
-    list.insertAtEnd(20);
-    list.insertAtEnd(30);
-    
-    list.deleteAtEnd();
-    assert(list.getSize() == 2);
-    
-    list.deleteAtEnd();
-    assert(list.getSize() == 1);
-    
-    list.deleteAtEnd();
-    assert(list.getSize() == 0);
-    
-    // Delete from empty list
-    list.deleteAtEnd();
-    assert(list.getSize() == 0);
-    
-    cout << "deleteAtEnd tests passed!" << endl;
-}
+class LinkedList {
+private:
+    Element* head;                    // pozycja pierwszego elementu
+    Element* tail;                    // pozycja ostatniego elementu
+    int size;
 
-void testDeleteAtPosition() {
-    cout << "Testing deleteAtPosition..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(10);
-    list.insertAtEnd(20);
-    list.insertAtEnd(30);
-    list.insertAtEnd(40);
-    
-    // Delete from middle
-    list.deleteAtPosition(1);
-    assert(list.getSize() == 3);
-    
-    // Delete from beginning
-    list.deleteAtPosition(0);
-    assert(list.getSize() == 2);
-    
-    // Delete from end
-    list.deleteAtPosition(1);
-    assert(list.getSize() == 1);
-    
-    // Delete last element
-    list.deleteAtPosition(0);
-    assert(list.getSize() == 0);
-    
-    cout << "deleteAtPosition tests passed!" << endl;
-}
+public:
+    LinkedList() {
+        head = nullptr;
+        tail = nullptr;
+        size = 0;
+    }
 
-void testSearch() {
-    cout << "Testing search..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(10);
-    list.insertAtEnd(20);
-    list.insertAtEnd(30);
-    
-    assert(list.search(10) == true);
-    assert(list.search(20) == true);
-    assert(list.search(30) == true);
-    assert(list.search(40) == false);
-    assert(list.search(5) == false);
-    
-    cout << "search tests passed!" << endl;
-}
+    bool empty() {
+        return size == 0;
+    }
 
-void testReverse() {
-    cout << "Testing reverse..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(10);
-    list.insertAtEnd(20);
-    list.insertAtEnd(30);
-    
-    list.reverse();
-    // After reverse: 30 -> 20 -> 10
-    assert(list.getSize() == 3);
-    
-    cout << "reverse tests passed!" << endl;
-}
+    int getSize() {
+        return size;
+    }
 
-void testEmptyList() {
-    cout << "Testing empty list operations..." << endl;
-    LinkedList list;
-    
-    assert(list.getSize() == 0);
-    assert(list.search(10) == false);
-    
-    list.deleteAtBeginning();  // Should not crash
-    list.deleteAtEnd();         // Should not crash
-    list.deleteAtPosition(0);   // Should not crash
-    list.reverse();             // Should not crash
-    
-    cout << "empty list tests passed!" << endl;
-}
+    void append(int x) {
+        // wstawia element z x na końcu listy
+        Element* newElem = new Element(x, nullptr, tail);
+        if (empty()) {
+            head = newElem;
+            tail = newElem;
+        } else {
+            tail->setNext(newElem);
+            tail = newElem;
+        }
+        size++;
+    }
 
-void testSingleElement() {
-    cout << "Testing single element operations..." << endl;
-    LinkedList list;
-    
-    list.insertAtEnd(42);
-    assert(list.getSize() == 1);
-    assert(list.search(42) == true);
-    
-    list.reverse();
-    assert(list.getSize() == 1);
-    
-    list.deleteAtBeginning();
-    assert(list.getSize() == 0);
-    
-    cout << "single element tests passed!" << endl;
-}
+    void preppend(int x) {
+        // wstawia element z x na początku listy
+        Element* newElem = new Element(x, head, nullptr);
+        if (empty()) {
+            head = newElem;
+            tail = newElem;
+        } else {
+            head->setPrev(newElem);
+            head = newElem;
+        }
+        size++;
+    }
 
-void testDisplay() {
-    cout << "Testing display (visual check)..." << endl;
-    LinkedList list;
-    
-    cout << "Empty list: ";
-    list.display();
-    
-    list.insertAtEnd(10);
-    list.insertAtEnd(20);
-    list.insertAtEnd(30);
-    
-    cout << "List with 3 elements: ";
-    list.display();
-    
-    cout << "display tests completed (check output visually)" << endl;
-}
+    friend ostream& operator<<(ostream& out, LinkedList* l) {
+        Element* curr = l->head;
+        out << "[";
+        while (curr != nullptr) {
+            out << curr->getValue();
+            if (curr->getNext() != nullptr) {
+                out << ", ";
+            }
+            curr = curr->getNext();
+        }
+        out << "]";
+        return out;
+    }
+
+    Element* locate(int x) {
+        // zwraca pozycję pierwszego wystąpienia elementu z x, NULL jeśli x nie występuje
+        Element* curr = head;
+        while (curr != nullptr) {
+            if (curr->getValue() == x) {
+                return curr;
+            }
+            curr = curr->getNext();
+        }
+        return nullptr;
+    }
+
+    void clear() {
+        // usuwa całą listę (zawartość)
+        Element* curr = head;
+        while (curr != nullptr) {
+            Element* next = curr->getNext();
+            delete curr;
+            curr = next;
+        }
+        head = nullptr;
+        tail = nullptr;
+        size = 0;
+    }
+
+    ~LinkedList() {
+        clear();
+    }
+};
 
 int main() {
-    cout << "=== Running LinkedList Test Suite ===" << endl << endl;
-    
-    testInsertAtBeginning();
-    testInsertAtEnd();
-    testInsertAtPosition();
-    testDeleteAtBeginning();
-    testDeleteAtEnd();
-    testDeleteAtPosition();
-    testSearch();
-    testReverse();
-    testEmptyList();
-    testSingleElement();
-    testDisplay();
-    
-    cout << endl << "=== All tests passed! ===" << endl;
-    
+    // Zadanie 1 - Testowanie poprawności działania
+    LinkedList* list = new LinkedList();
+
+    cout << "--- TESTY LISTY DWUKIERUNKOWEJ ---" << endl;
+
+    // 1. Test pustej listy
+    cout << "\n1. Stan poczatkowy (pusta lista):" << endl;
+    cout << "   empty() (oczekiwane 1): " << list->empty() << endl;
+    cout << "   getSize() (oczekiwane 0): " << list->getSize() << endl;
+    cout << "   Wypisanie: " << list << endl;
+
+    // 2. Test append (dodawanie na koniec)
+    cout << "\n2. Test append(10), append(20), append(30):" << endl;
+    list->append(10);
+    list->append(20);
+    list->append(30);
+    cout << "   empty() (oczekiwane 0): " << list->empty() << endl;
+    cout << "   getSize() (oczekiwane 3): " << list->getSize() << endl;
+    cout << "   Wypisanie (oczekiwane [10, 20, 30]): " << list << endl;
+
+    // 3. Test preppend (dodawanie na początek)
+    cout << "\n3. Test preppend(5), preppend(1):" << endl;
+    list->preppend(5);
+    list->preppend(1);
+    cout << "   getSize() (oczekiwane 5): " << list->getSize() << endl;
+    cout << "   Wypisanie (oczekiwane [1, 5, 10, 20, 30]): " << list << endl;
+
+    // 4. Test locate (wyszukiwanie)
+    cout << "\n4. Test locate:" << endl;
+    int szukane[] = {10, 99};
+    for (int x : szukane) {
+        Element* el = list->locate(x);
+        if (el != nullptr) {
+            cout << "   locate(" << x << "): Znaleziono element o wartosci " << el->getValue() << endl;
+            // Weryfikacja sąsiadów dla pewności spójności wskaźników
+            if(el->getPrev()) cout << "      Poprzednik: " << el->getPrev()->getValue() << endl;
+            if(el->getNext()) cout << "      Nastepnik: " << el->getNext()->getValue() << endl;
+        } else {
+            cout << "   locate(" << x << "): Nie znaleziono (NULL)" << endl;
+        }
+    }
+
+    // 5. Test clear (czyszczenie)
+    cout << "\n5. Test clear:" << endl;
+    list->clear();
+    cout << "   empty() (oczekiwane 1): " << list->empty() << endl;
+    cout << "   getSize() (oczekiwane 0): " << list->getSize() << endl;
+    cout << "   Wypisanie: " << list << endl;
+
+    // 6. Test ponownego użycia po clear
+    cout << "\n6. Dodawanie po clear (append 100):" << endl;
+    list->append(100);
+    cout << "   getSize() (oczekiwane 1): " << list->getSize() << endl;
+    cout << "   Wypisanie: " << list << endl;
+
+    delete list;
     return 0;
 }
