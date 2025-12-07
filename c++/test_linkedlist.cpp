@@ -93,7 +93,13 @@ public:
     Element* getLast() { return tail; }
     Element* getNext(Element *p) { return (p) ? p->getNext() : nullptr; }
     Element* getPrev(Element *p) { return (p) ? p->getPrev() : nullptr; }
-    int retrive(Element* p) { return (p) ? p->getValue() : 0; }
+    int retrive(Element* p) {
+        if (p) {
+            return p->getValue();
+        } else {
+            return 0;
+        }
+    }
 
     void append(int x) {
         // wstawia element z x na końcu listy
