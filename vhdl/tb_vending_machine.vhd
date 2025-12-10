@@ -49,7 +49,7 @@ architecture Behavioral of tb_vending_machine is
     signal coin_5, coin_2, coin_1, coin_0_50, coin_0_20, coin_0_10 : INTEGER range 0 to 10;
     signal current_state_out : STD_LOGIC_VECTOR(2 downto 0);
 
-    -- Clock period definitions
+    -- Definicje okresu zegara
     constant clk_period : time := 10 ns;
 
 begin
@@ -76,7 +76,7 @@ begin
         current_state_out => current_state_out
     );
 
-    -- Clock process definitions
+    -- Definicje procesu zegara
     clk_process :process
     begin
         clk <= '0';
@@ -85,56 +85,56 @@ begin
         wait for clk_period/2;
     end process;
 
-    -- Stimulus process
+    -- Proces wymuszeń
     stim_proc: process
     begin		
-        -- hold reset state for 100 ns.
+        -- utrzymaj stan resetu przez 100 ns.
         reset <= '1';
         wait for 100 ns;	
         reset <= '0';
         wait for clk_period*10;
 
-        -- Test Case 1: Buy Sok jabkowy (Price 20) with Cash (Amount 25)
-        -- Should dispense product and give 5 change
-        product_select <= "001"; -- Select Sok jabkowy
+        -- Przypadek testowy 1: Kup Sok jabłkowy (Cena 20) za Gotówkę (Kwota 25)
+        -- Powinien wydać produkt i wydać 5 reszty
+        product_select <= "001"; -- Wybierz Sok jabłkowy
         wait for clk_period;
         
-        payment_method <= "00"; -- Cash
+        payment_method <= "00"; -- Gotówka
         payment_amount <= 25;
-        wait for clk_period*5; -- Wait for processing
+        wait for clk_period*5; -- Czekaj na przetworzenie
         
-        -- Reset inputs
+        -- Resetuj wejścia
         product_select <= "000";
         payment_amount <= 0;
         wait for clk_period*10;
         
-        -- Test Case 2: Buy coca cola (Price 30) with Card
-        -- Should dispense product, no change
-        product_select <= "010"; -- Select coca cola
+        -- Przypadek testowy 2: Kup coca colę (Cena 30) Kartą
+        -- Powinien wydać produkt, brak reszty
+        product_select <= "010"; -- Wybierz coca colę
         wait for clk_period;
         
-        payment_method <= "01"; -- Card
-        payment_amount <= 30; -- Card reader sends amount
+        payment_method <= "01"; -- Karta
+        payment_amount <= 30; -- Czytnik kart wysyła kwotę
         payment_valid <= '1';
         wait for clk_period*5;
         
-        -- Reset inputs
+        -- Resetuj wejścia
         product_select <= "000";
         payment_amount <= 0;
         payment_valid <= '0';
         wait for clk_period*10;
 
-        -- Test Case 3: Buy Pepsi (Price 30) with Blik
-        -- Should dispense product, no change
-        product_select <= "011"; -- Select Pepsi
+        -- Przypadek testowy 3: Kup Pepsi (Cena 30) Blikiem
+        -- Powinien wydać produkt, brak reszty
+        product_select <= "011"; -- Wybierz Pepsi
         wait for clk_period;
         
         payment_method <= "10"; -- Blik
-        payment_amount <= 30; -- Blik sends amount
+        payment_amount <= 30; -- Blik wysyła kwotę
         payment_valid <= '1';
         wait for clk_period*5;
         
-        -- Reset inputs
+        -- Resetuj wejścia
         product_select <= "000";
         payment_amount <= 0;
         payment_valid <= '0';

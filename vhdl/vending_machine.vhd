@@ -8,11 +8,11 @@ entity vending_machine is
         reset : in STD_LOGIC;
         
         -- Inputs
-        product_select : in STD_LOGIC_VECTOR(2 downto 0); -- 000: None, 001: Sok, 010: Cola, 011: Pepsi, 100: Water
-        payment_method : in STD_LOGIC_VECTOR(1 downto 0); -- 00: Cash, 01: Card, 10: Blik
-        payment_amount : in INTEGER range 0 to 100; -- Amount inserted (for cash)
-        payment_valid : in STD_LOGIC; -- Signal for Card/Blik confirmation
-        payment_rejected : in STD_LOGIC; -- Signal for Card/Blik rejection
+        product_select : in STD_LOGIC_VECTOR(2 downto 0); -- 000: Brak, 001: Sok, 010: Cola, 011: Pepsi, 100: Woda
+        payment_method : in STD_LOGIC_VECTOR(1 downto 0); -- 00: Gotówka, 01: Karta, 10: Blik
+        payment_amount : in INTEGER range 0 to 100; -- Wprowadzona kwota (dla gotówki)
+        payment_valid : in STD_LOGIC; -- Sygnał potwierdzenia Karty/Blika
+        payment_rejected : in STD_LOGIC; -- Sygnał odrzucenia Karty/Blika
         
         -- Outputs
         dispense_product : out STD_LOGIC;
@@ -20,7 +20,7 @@ entity vending_machine is
         out_of_stock : out STD_LOGIC;
         payment_error : out STD_LOGIC;
         change_amount : out INTEGER range 0 to 100;
-        -- Coin outputs (Values: 5.00, 2.00, 1.00, 0.50, 0.20, 0.10)
+        -- Wyjścia monet (Wartości: 5.00, 2.00, 1.00, 0.50, 0.20, 0.10)
         coin_5 : out INTEGER range 0 to 10;
         coin_2 : out INTEGER range 0 to 10;
         coin_1 : out INTEGER range 0 to 10;
@@ -28,27 +28,27 @@ entity vending_machine is
         coin_0_20 : out INTEGER range 0 to 10;
         coin_0_10 : out INTEGER range 0 to 10;
         
-        current_state_out : out STD_LOGIC_VECTOR(2 downto 0) -- For debugging
+        current_state_out : out STD_LOGIC_VECTOR(2 downto 0) -- Do debugowania
     );
 end vending_machine;
 
 architecture Behavioral of vending_machine is
 
-    -- Define states
+    -- Definicja stanów
     type state_type is (IDLE, CHECK_SELECTION, WAIT_PAYMENT, DISPENSE_ITEM, CALC_CHANGE, GIVE_CHANGE);
     signal current_state : state_type;
     
-    -- Internal signals
+    -- Sygnały wewnętrzne
     signal price : INTEGER range 0 to 100 := 0;
     signal amount_paid : INTEGER range 0 to 100 := 0;
     signal change_due : INTEGER range 0 to 100 := 0;
     
-    -- Inventory System
+    -- System magazynowy
     type inventory_type is array (1 to 4) of INTEGER range 0 to 10;
-    signal stock : inventory_type := (others => 5); -- Start with 5 of each item
+    signal stock : inventory_type := (others => 5); -- Start z 5 sztukami każdego produktu
     signal selected_idx : INTEGER range 0 to 4 := 1;
     
-    -- Coin Inventory (Count of coins available)
+    -- Magazyn monet (Liczba dostępnych monet)
     signal stock_coin_5 : INTEGER range 0 to 50 := 20;
     signal stock_coin_2 : INTEGER range 0 to 50 := 20;
     signal stock_coin_1 : INTEGER range 0 to 50 := 20;
@@ -56,14 +56,14 @@ architecture Behavioral of vending_machine is
     signal stock_coin_0_20 : INTEGER range 0 to 50 := 20;
     signal stock_coin_0_10 : INTEGER range 0 to 50 := 20;
 
-    -- Product prices stored in an array for easier access
-    -- Index: 1=Sok, 2=Cola, 3=Pepsi, 4=Water
+    -- Ceny produktów przechowywane w tablicy dla łatwiejszego dostępu
+    -- Indeks: 1=Sok, 2=Cola, 3=Pepsi, 4=Woda
     type price_array_type is array (1 to 4) of INTEGER range 0 to 100;
     constant PRODUCT_PRICES : price_array_type := (20, 30, 30, 15);
 
 begin
 
-    -- Main Process
+    -- Główny Proces
     process(clk, reset)
         variable temp_change : INTEGER range 0 to 100;
         variable num_coins : INTEGER range 0 to 100;
@@ -72,7 +72,7 @@ begin
             current_state <= IDLE;
             stock <= (others => 5);
             
-            -- Reset coin stock
+            -- Reset stanu monet
             stock_coin_5 <= 20;
             stock_coin_2 <= 20;
             stock_coin_1 <= 20;
@@ -96,17 +96,17 @@ begin
             price <= 0;
             amount_paid <= 0;
             change_due <= 0;
-            selected_idx <= 1;
+            selected_idx <= 1; -- Inicjalizacja na poprawny indeks
             current_state_out <= "000";
             
         elsif rising_edge(clk) then
-            -- Default output values
+            -- Domyślne wartości wyjść
             dispense_product <= '0';
             dispense_change <= '0';
             out_of_stock <= '0';
             payment_error <= '0';
             
-            -- Reset coin outputs when not giving change
+            -- Reset wyjść monet, gdy nie wydajemy reszty
             if current_state /= GIVE_CHANGE then
                 coin_5 <= 0;
                 coin_2 <= 0;
@@ -118,18 +118,20 @@ begin
             
             case current_state is
                 when IDLE =>
+                    -- Stan Czuwania: Automat czeka na wybór produktu przez użytkownika.
                     current_state_out <= "000";
                     if product_select /= "000" then
                         current_state <= CHECK_SELECTION;
                     end if;
                     
                 when CHECK_SELECTION =>
+                    -- Stan Sprawdzania Wyboru: Sprawdza czy produkt istnieje i czy jest dostępny w magazynie.
                     current_state_out <= "001";
                     
-                    -- Optimized selection logic using array lookup
-                    -- Convert "001" -> 1, "010" -> 2, etc.
+                    -- Zoptymalizowana logika wyboru przy użyciu tablicy
+                    -- Konwersja "001" -> 1, "010" -> 2, itd.
                     if unsigned(product_select) >= 1 and unsigned(product_select) <= 4 then
-                        -- Check if item is in stock
+                        -- Sprawdź czy produkt jest w magazynie
                         if stock(to_integer(unsigned(product_select))) > 0 then
                             price <= PRODUCT_PRICES(to_integer(unsigned(product_select)));
                             selected_idx <= to_integer(unsigned(product_select));
@@ -139,43 +141,47 @@ begin
                             current_state <= IDLE;
                         end if;
                     else
-                        current_state <= IDLE; -- Invalid selection
+                        current_state <= IDLE; -- Nieprawidłowy wybór
                     end if;
                     
                 when WAIT_PAYMENT =>
+                    -- Stan Oczekiwania na Płatność: Czeka na wpłatę.
+                    -- Dla gotówki sprawdza kwotę. Dla karty/blika czeka na potwierdzenie.
                     current_state_out <= "010";
                     
-                    if payment_method = "00" then -- Cash
+                    if payment_method = "00" then -- Gotówka
                         if payment_amount >= price then
                             amount_paid <= payment_amount;
                             current_state <= DISPENSE_ITEM;
                         end if;
-                    elsif payment_method = "01" or payment_method = "10" then -- Card or Blik
-                        -- Check if payment is valid AND amount is sufficient
+                    elsif payment_method = "01" or payment_method = "10" then -- Karta lub Blik
+                        -- Sprawdź czy płatność jest ważna ORAZ kwota jest wystarczająca
                         if payment_valid = '1' and payment_amount >= price then
                             current_state <= DISPENSE_ITEM;
                         elsif payment_rejected = '1' then
-                            payment_error <= '1'; -- Display message "0" (Error)
+                            payment_error <= '1'; -- Wyświetl komunikat "0" (Błąd)
                             current_state <= IDLE;
                         end if;
                     end if;
                     
                 when DISPENSE_ITEM =>
+                    -- Stan Wydawania Produktu: Wydaje produkt i zmniejsza stan magazynowy.
                     current_state_out <= "011";
                     dispense_product <= '1';
                     
-                    -- Decrease stock
+                    -- Zmniejsz stan magazynowy
                     if selected_idx > 0 then
                         stock(selected_idx) <= stock(selected_idx) - 1;
                     end if;
                     
-                    if payment_method = "00" then -- Cash
+                    if payment_method = "00" then -- Gotówka
                         current_state <= CALC_CHANGE;
-                    else -- Card or Blik
+                    else -- Karta lub Blik
                         current_state <= IDLE;
                     end if;
                     
                 when CALC_CHANGE =>
+                    -- Stan Obliczania Reszty: Oblicza ile reszty trzeba oddać.
                     current_state_out <= "100";
                     change_due <= amount_paid - price;
                     if (amount_paid - price) > 0 then
@@ -185,15 +191,17 @@ begin
                     end if;
                     
                 when GIVE_CHANGE =>
+                    -- Stan Wydawania Reszty: Algorytm zachłanny.
+                    -- Wydaje resztę używając dostępnych monet od największej do najmniejszej.
                     current_state_out <= "101";
                     dispense_change <= '1';
                     change_amount <= change_due;
                     
-                    -- Calculate coins starting from biggest (5.00 = 50 units)
-                    -- Check availability in stock
+                    -- Oblicz monety zaczynając od największej (5.00 = 50 jednostek)
+                    -- Sprawdź dostępność w magazynie
                     temp_change := change_due;
                     
-                    -- 5.00 Coins
+                    -- Monety 5.00
                     num_coins := temp_change / 50;
                     if num_coins > stock_coin_5 then
                         num_coins := stock_coin_5;
@@ -202,7 +210,7 @@ begin
                     stock_coin_5 <= stock_coin_5 - num_coins;
                     temp_change := temp_change - (num_coins * 50);
                     
-                    -- 2.00 Coins
+                    -- Monety 2.00
                     num_coins := temp_change / 20;
                     if num_coins > stock_coin_2 then
                         num_coins := stock_coin_2;
@@ -211,7 +219,7 @@ begin
                     stock_coin_2 <= stock_coin_2 - num_coins;
                     temp_change := temp_change - (num_coins * 20);
                     
-                    -- 1.00 Coins
+                    -- Monety 1.00
                     num_coins := temp_change / 10;
                     if num_coins > stock_coin_1 then
                         num_coins := stock_coin_1;
@@ -220,7 +228,7 @@ begin
                     stock_coin_1 <= stock_coin_1 - num_coins;
                     temp_change := temp_change - (num_coins * 10);
                     
-                    -- 0.50 Coins
+                    -- Monety 0.50
                     num_coins := temp_change / 5;
                     if num_coins > stock_coin_0_50 then
                         num_coins := stock_coin_0_50;
@@ -229,7 +237,7 @@ begin
                     stock_coin_0_50 <= stock_coin_0_50 - num_coins;
                     temp_change := temp_change - (num_coins * 5);
                     
-                    -- 0.20 Coins
+                    -- Monety 0.20
                     num_coins := temp_change / 2;
                     if num_coins > stock_coin_0_20 then
                         num_coins := stock_coin_0_20;
@@ -238,7 +246,7 @@ begin
                     stock_coin_0_20 <= stock_coin_0_20 - num_coins;
                     temp_change := temp_change - (num_coins * 2);
                     
-                    -- 0.10 Coins
+                    -- Monety 0.10
                     num_coins := temp_change;
                     if num_coins > stock_coin_0_10 then
                         num_coins := stock_coin_0_10;
