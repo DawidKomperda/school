@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <string>
 
 using namespace std;
 
@@ -222,17 +221,25 @@ int main() {
     cout << "Search 99: " << (t->search(99) ? "Found" : "Not Found") << endl;
 
     Node* minNode = t->minimum(t->getRoot());
-    cout << "Minimum: " << (minNode ? to_string(minNode->getValue()) : "None") << endl;
+    cout << "Minimum: ";
+    if (minNode) cout << minNode->getValue(); else cout << "None";
+    cout << endl;
 
     Node* maxNode = t->maximum(t->getRoot());
-    cout << "Maximum: " << (maxNode ? to_string(maxNode->getValue()) : "None") << endl;
+    cout << "Maximum: ";
+    if (maxNode) cout << maxNode->getValue(); else cout << "None";
+    cout << endl;
 
     Node* node7 = t->search(7);
     if (node7) {
         Node* succ = t->successor(node7);
-        cout << "Successor of 7: " << (succ ? to_string(succ->getValue()) : "None") << endl;
+        cout << "Successor of 7: ";
+        if (succ) cout << succ->getValue(); else cout << "None";
+        cout << endl;
         Node* pred = t->predecessor(node7);
-        cout << "Predecessor of 7: " << (pred ? to_string(pred->getValue()) : "None") << endl;
+        cout << "Predecessor of 7: ";
+        if (pred) cout << pred->getValue(); else cout << "None";
+        cout << endl;
     }
 
     cout << "Deleting 13 (node with one child 9)..." << endl;
