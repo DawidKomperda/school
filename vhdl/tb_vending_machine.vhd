@@ -27,6 +27,9 @@ architecture Behavioral of tb_vending_machine is
             coin_0_50 : out INTEGER range 0 to 10;
             coin_0_20 : out INTEGER range 0 to 10;
             coin_0_10 : out INTEGER range 0 to 10;
+            -- Added Alert Outputs
+            owner_alert_stock : out STD_LOGIC;
+            owner_alert_coins : out STD_LOGIC;
             current_state_out : out STD_LOGIC_VECTOR(2 downto 0)
         );
     end component;
@@ -47,9 +50,11 @@ architecture Behavioral of tb_vending_machine is
     signal payment_error : STD_LOGIC;
     signal change_amount : INTEGER range 0 to 100;
     signal coin_5, coin_2, coin_1, coin_0_50, coin_0_20, coin_0_10 : INTEGER range 0 to 10;
+    -- Added Alert Signals
+    signal owner_alert_stock : STD_LOGIC;
+    signal owner_alert_coins : STD_LOGIC;
     signal current_state_out : STD_LOGIC_VECTOR(2 downto 0);
 
-    -- Definicje okresu zegara
     constant clk_period : time := 10 ns;
 
 begin
@@ -73,10 +78,11 @@ begin
         coin_0_50 => coin_0_50,
         coin_0_20 => coin_0_20,
         coin_0_10 => coin_0_10,
+        owner_alert_stock => owner_alert_stock,
+        owner_alert_coins => owner_alert_coins,
         current_state_out => current_state_out
     );
 
-    -- Definicje procesu zegara
     clk_process :process
     begin
         clk <= '0';
@@ -85,56 +91,42 @@ begin
         wait for clk_period/2;
     end process;
 
-    -- Proces wymuszeń
     stim_proc: process
     begin		
-        -- utrzymaj stan resetu przez 100 ns.
         reset <= '1';
         wait for 100 ns;	
         reset <= '0';
         wait for clk_period*10;
 
-        -- Przypadek testowy 1: Kup Sok jabłkowy (Cena 20) za Gotówkę (Kwota 25)
-        -- Powinien wydać produkt i wydać 5 reszty
-        product_select <= "001"; -- Wybierz Sok jabłkowy
+        -- Przypadek testowy 1: Sok jabłkowy za Gotówkę
+        product_select <= "001";
         wait for clk_period;
-        
-        payment_method <= "00"; -- Gotówka
+        payment_method <= "00";
         payment_amount <= 25;
-        wait for clk_period*5; -- Czekaj na przetworzenie
-        
-        -- Resetuj wejścia
+        wait for clk_period*5;
         product_select <= "000";
         payment_amount <= 0;
         wait for clk_period*10;
         
-        -- Przypadek testowy 2: Kup coca colę (Cena 30) Kartą
-        -- Powinien wydać produkt, brak reszty
-        product_select <= "010"; -- Wybierz coca colę
+        -- Przypadek testowy 2: Cola Kartą
+        product_select <= "010";
         wait for clk_period;
-        
-        payment_method <= "01"; -- Karta
-        payment_amount <= 30; -- Czytnik kart wysyła kwotę
+        payment_method <= "01";
+        payment_amount <= 30;
         payment_valid <= '1';
         wait for clk_period*5;
-        
-        -- Resetuj wejścia
         product_select <= "000";
         payment_amount <= 0;
         payment_valid <= '0';
         wait for clk_period*10;
 
-        -- Przypadek testowy 3: Kup Pepsi (Cena 30) Blikiem
-        -- Powinien wydać produkt, brak reszty
-        product_select <= "011"; -- Wybierz Pepsi
+        -- Przypadek testowy 3: Pepsi Blikiem
+        product_select <= "011";
         wait for clk_period;
-        
-        payment_method <= "10"; -- Blik
-        payment_amount <= 30; -- Blik wysyła kwotę
+        payment_method <= "10";
+        payment_amount <= 30;
         payment_valid <= '1';
         wait for clk_period*5;
-        
-        -- Resetuj wejścia
         product_select <= "000";
         payment_amount <= 0;
         payment_valid <= '0';
