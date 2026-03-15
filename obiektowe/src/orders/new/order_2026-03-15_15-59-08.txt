@@ -1,0 +1,6 @@
+=== New Order ===
+Order ID: 1
+Date: 2026-03-15_15-59-08
+Supplier: Test
+Items:
+ - Name: Test, Amount: 15

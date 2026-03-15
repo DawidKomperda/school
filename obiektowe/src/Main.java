@@ -156,6 +156,10 @@ public class Main {
                 }
             }
             if (target != null) {
+                if (target == currentUser) {
+                    System.out.println("Error: You cannot delete yourself while logged in.");
+                    return;
+                }
                 try {
                     if (currentUser.deleteUser(target)) {
                         users.remove(target);
@@ -184,7 +188,7 @@ public class Main {
                 System.out.print("Enter item ID to sell: ");
                 int id = Integer.parseInt(scanner.nextLine());
                 System.out.print("Enter amount: ");
-                int amt = Integer.parseInt(scanner.nextLine());
+                int amt = Math.abs(Integer.parseInt(scanner.nextLine()));
                 currentUser.itemSell(id, amt, storage);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a numerical ID and amount.");
@@ -195,7 +199,7 @@ public class Main {
                 System.out.print("Enter item ID to return: ");
                 int id = Integer.parseInt(scanner.nextLine());
                 System.out.print("Enter amount: ");
-                int amt = Integer.parseInt(scanner.nextLine());
+                int amt = Math.abs(Integer.parseInt(scanner.nextLine()));
                 currentUser.itemReturn(id, amt, storage);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a numerical ID and amount.");
@@ -270,7 +274,7 @@ public class Main {
             System.out.print("Amount: ");
             int amount;
             try {
-                amount = Integer.parseInt(scanner.nextLine());
+                amount = Math.abs(Integer.parseInt(scanner.nextLine()));
             } catch (NumberFormatException e) {
                 System.out.println("Invalid amount. Please try again.");
                 continue;
@@ -284,6 +288,9 @@ public class Main {
                 Items existing = storage.findItemByName(name);
                 if (existing == null) {
                     System.out.println("Error: Item does not exist in storage.");
+                    continue;
+                } else if (amount > existing.getNumber()) {
+                    System.out.println("Error: Cannot return more items (" + amount + ") than currently in storage (" + existing.getNumber() + ").");
                     continue;
                 }
             } else if (order instanceof OrderNew) {
@@ -323,6 +330,7 @@ public class Main {
                 
                 FileWriter writer = new FileWriter(filename);
                 writer.write("=== Accepted Order ===\n");
+                writer.write("Order ID: " + order.getId() + "\n");
                 writer.write("Original Arrived ID: " + arrivedOrderId + "\n");
                 writer.write("Date: " + timestamp + "\n");
                 writer.write("Supplier: " + order.getSupplier() + "\n");
@@ -358,6 +366,7 @@ public class Main {
                 
                 FileWriter writer = new FileWriter(filename);
                 writer.write("=== New Order ===\n");
+                writer.write("Order ID: " + order.getId() + "\n");
                 writer.write("Date: " + timestamp + "\n");
                 writer.write("Supplier: " + order.getSupplier() + "\n");
                 writer.write("Items:\n");
@@ -382,6 +391,7 @@ public class Main {
                 
                 FileWriter writer = new FileWriter(filename);
                 writer.write("=== Return Order ===\n");
+                writer.write("Order ID: " + order.getId() + "\n");
                 writer.write("Date: " + timestamp + "\n");
                 writer.write("Supplier: " + order.getSupplier() + "\n");
                 writer.write("Reason: " + ((OrderReturn) order).getReturnReason() + "\n");

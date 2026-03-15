@@ -1,7 +1,0 @@
-=== Return Order ===
-Date: 2026-03-15_15-06-36
-Supplier: mas
-Reason: termin
-Items:
- - Name: rice, Amount: 20
- - Name: bread, Amount: 10

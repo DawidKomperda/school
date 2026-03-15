@@ -1,7 +1,0 @@
-=== Accepted Order ===
-Original Arrived ID: 12345
-Date: 2026-03-15_15-08-02
-Supplier: TechSupply
-Items Accepted:
- - Name: Mechanical Keyboard, Amount: 20
- - Name: Mouse, Amount: 30

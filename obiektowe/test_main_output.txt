@@ -1,0 +1,163 @@
+
+=== Warehouse Management System ===
+1. Login
+0. Exit
+Choose option: Username: Password: admin successfully logged in.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: --- Transactions ---
+1. Sell Item
+2. Return Item
+Choice: --- Products in Storage ---
+ID: 1 | Name: Apple | Amount: 50
+ID: 2 | Name: Banana | Amount: 50
+ID: 3 | Name: Milk | Amount: 50
+ID: 4 | Name: Bread | Amount: 50
+ID: 5 | Name: Water | Amount: 50
+ID: 6 | Name: Eggs | Amount: 50
+ID: 7 | Name: Cheese | Amount: 50
+ID: 8 | Name: Butter | Amount: 50
+ID: 9 | Name: Chicken | Amount: 50
+ID: 10 | Name: Rice | Amount: 50
+---------------------------
+Enter item ID to sell: Enter amount: Item ID 11 not found.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: --- Transactions ---
+1. Sell Item
+2. Return Item
+Choice: --- Products in Storage ---
+ID: 1 | Name: Apple | Amount: 50
+ID: 2 | Name: Banana | Amount: 50
+ID: 3 | Name: Milk | Amount: 50
+ID: 4 | Name: Bread | Amount: 50
+ID: 5 | Name: Water | Amount: 50
+ID: 6 | Name: Eggs | Amount: 50
+ID: 7 | Name: Cheese | Amount: 50
+ID: 8 | Name: Butter | Amount: 50
+ID: 9 | Name: Chicken | Amount: 50
+ID: 10 | Name: Rice | Amount: 50
+---------------------------
+Enter item ID to return: Enter amount: Item ID 12 not found in storage.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: --- Manage Orders ---
+1. Order Accept (Receive new batch into stock)
+2. Order New (Request items from supplier)
+3. Order Return (Send items back to supplier)
+0. Back
+Choice: Return Reason: Supplier: --- Current Storage ---
+--- Products in Storage ---
+ID: 1 | Name: Apple | Amount: 50
+ID: 2 | Name: Banana | Amount: 50
+ID: 3 | Name: Milk | Amount: 50
+ID: 4 | Name: Bread | Amount: 50
+ID: 5 | Name: Water | Amount: 50
+ID: 6 | Name: Eggs | Amount: 50
+ID: 7 | Name: Cheese | Amount: 50
+ID: 8 | Name: Butter | Amount: 50
+ID: 9 | Name: Chicken | Amount: 50
+ID: 10 | Name: Rice | Amount: 50
+---------------------------
+Enter Item Name (or type 'done' to finish): Amount: Error: Item does not exist in storage.
+Enter Item Name (or type 'done' to finish): Amount: Error: Item does not exist in storage.
+Enter Item Name (or type 'done' to finish): Amount: Error: Item does not exist in storage.
+Enter Item Name (or type 'done' to finish): Order cancelled: No items were added.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: --- Manage Orders ---
+1. Order Accept (Receive new batch into stock)
+2. Order New (Request items from supplier)
+3. Order Return (Send items back to supplier)
+0. Back
+Choice: Enter arrived order ID (5-digit number): Order ID not found in arrived folder.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: Invalid option.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: --- Manage Users ---
+Total Users: 7
+ID: 1 | Name: admin | Role: Admin
+ID: 2 | Name: manager1 | Role: Manager
+ID: 3 | Name: manager2 | Role: Manager
+ID: 4 | Name: employee1 | Role: Employee
+ID: 5 | Name: employee2 | Role: Employee
+ID: 6 | Name: employee3 | Role: Employee
+ID: 7 | Name: employee4 | Role: Employee
+1. Create User
+2. Delete User
+0. Back
+Choice: Enter ID of user to delete: Error: You cannot delete yourself while logged in.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: Invalid option.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: Invalid option.
+
+=== Warehouse Management System ===
+Logged in as: admin (Admin)
+1. Logout
+2. Display Storage
+3. Manage Users
+4. Transactions (Sell / Return)
+5. Manage Orders (Accept new items)
+6. Edit Storage Detail (Admin/Manager)
+Choose option: 

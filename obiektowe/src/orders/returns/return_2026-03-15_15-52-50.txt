@@ -1,0 +1,6 @@
+=== Return Order ===
+Date: 2026-03-15_15-52-50
+Supplier: son
+Reason: Eggs 20
+Items:
+ - Name: Eggs, Amount: 20
