@@ -1,0 +1,117 @@
+classDiagram
+    %% Interfaces
+    class Approve {
+        <<interface>>
+        +checkPrivilege(BaseUser user) boolean
+    }
+    
+    class StockModifier {
+        <<interface>>
+        +changeStock(Storage storage) void
+    }
+
+    class WareManager {
+        <<interface>>
+        +manageWares(Storage storage) void
+        +editStorageDetail(Storage storage, int itemId, String newName, int newAmount) void
+    }
+
+    %% User Domain
+    class BaseUser {
+        <<abstract>>
+        -static int idCounter
+        -int id
+        -String username
+        -String password
+        
+        +getRoleName() String*
+        +canApproveOrders() boolean*
+        #getSecurityClearance() int*
+        +createUser(BaseUser newUser) BaseUser
+        +deleteUser(BaseUser userToDelete) boolean
+        +displayStock(Storage storage) void
+        +itemSell(int itemId, int quantity, Storage storage) void
+        +itemReturn(int itemId, int quantity, Storage storage) void
+    }
+    
+    class Admin {
+        +getRoleName() String
+        +canApproveOrders() boolean
+        #getSecurityClearance() int
+        +changePassword(BaseUser user, String newPassword) void
+    }
+    
+    class Manager {
+        +getRoleName() String
+        +canApproveOrders() boolean
+        #getSecurityClearance() int
+    }
+    
+    class Employee {
+        +getRoleName() String
+        +canApproveOrders() boolean
+        #getSecurityClearance() int
+    }
+    
+    %% Order / Wares Domain
+    class BaseOrderWares {
+        <<abstract>>
+        -static int idCounter
+        -int id
+        -List~Items~ itemsList
+        -String supplier
+        +addItem(Items item) void
+    }
+    
+    class OrderNew {
+        +checkPrivilege(BaseUser user) boolean
+    }
+    
+    class OrderReturn {
+        -String returnReason
+        +changeStock(Storage storage) void
+        +checkPrivilege(BaseUser user) boolean
+    }
+    
+    class OrderAccept {
+        +changeStock(Storage storage) void
+    }
+    
+    %% Storage Domain
+    class Storage {
+        -List~Items~ productNames
+        -findMatchingItem(Items targetItem) Items
+        -findItemById(int id) Items
+        +addItem(Items itemToAdd) void
+        +removeItem(Items itemToRemove) void
+        +getNumber() int
+        +decreaseStockById(int id, int amount) void
+        +increaseStockById(int id, int amount) void
+    }
+    
+    class Items {
+        -int id
+        -String productName
+        -int number
+    }
+
+    %% Relationships
+    BaseUser <|-- Admin
+    BaseUser <|-- Manager
+    BaseUser <|-- Employee
+
+    WareManager <|.. Admin
+    WareManager <|.. Manager
+
+    BaseOrderWares <|-- OrderNew
+    BaseOrderWares <|-- OrderReturn
+    BaseOrderWares <|-- OrderAccept
+
+    Approve <|.. OrderNew
+    Approve <|.. OrderReturn
+
+    StockModifier <|.. OrderReturn
+    StockModifier <|.. OrderAccept
+
+    BaseOrderWares "1" *-- "*" Items : contains
+    Storage "1" *-- "*" Items : contains

@@ -1,0 +1,32 @@
+=== Warehouse Users Credentials ===
+
+[ Admin ]
+Username: admin
+Password: admin123
+ID: 1
+
+[ Managers ]
+Username: manager1
+Password: pass
+ID: 2
+
+Username: manager2
+Password: pass
+ID: 3
+
+[ Employees ]
+Username: employee1
+Password: pass
+ID: 4
+
+Username: employee2
+Password: pass
+ID: 5
+
+Username: employee3
+Password: pass
+ID: 6
+
+Username: employee4
+Password: pass
+ID: 7

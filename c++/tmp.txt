@@ -1,0 +1,6 @@
+
+ Proces macierzysty pid(26848) ->>. Suma=0
+ Process potomny (pid: 26849) oblicza wektor:
+ v[0] = 0 v[1] = 2 v[2] = 4 v[3] = 6 v[4] = 8
+
+ process macierzysty pid(26848) ->> Suma =20

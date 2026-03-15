@@ -1,0 +1,13 @@
+--- src/BaseUser.java
++++ src/BaseUser.java
+@@ -87,10 +87,6 @@
+     }
+ 
+     public void itemSell(int itemId, int quantity, Storage storage) {
+-        if (!cashRegister) {
+-            System.out.println("Open the cash register first.");
+-            return;
+-        }
+         Items item = storage.findItemById(itemId);
+         if (item != null) {
+             if (item.getNumber() >= quantity) {

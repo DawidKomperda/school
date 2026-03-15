@@ -1,0 +1,6 @@
+=== New Order ===
+Date: 2026-03-15_11-30-00
+Supplier: FarmCorp
+Items:
+ - Name: Milk, Amount: 100
+ - Name: Cheese, Amount: 50

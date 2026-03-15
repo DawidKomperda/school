@@ -1,0 +1,6 @@
+=== New Order ===
+Date: 2026-03-15_15-05-52
+Supplier: monka
+Items:
+ - Name: jablko, Amount: 20
+ - Name: banan, Amount: 50

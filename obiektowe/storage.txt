@@ -1,0 +1,11 @@
+=== Warehouse Storage Information ===
+ID: 1 | Name: Apple | Amount: 50
+ID: 2 | Name: Banana | Amount: 50
+ID: 3 | Name: Milk | Amount: 50
+ID: 4 | Name: Bread | Amount: 50
+ID: 5 | Name: Water | Amount: 50
+ID: 6 | Name: Eggs | Amount: 50
+ID: 7 | Name: Cheese | Amount: 50
+ID: 8 | Name: Butter | Amount: 50
+ID: 9 | Name: Chicken | Amount: 50
+ID: 10 | Name: Rice | Amount: 50
