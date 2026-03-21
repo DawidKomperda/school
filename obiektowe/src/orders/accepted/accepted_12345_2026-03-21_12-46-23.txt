@@ -1,0 +1,8 @@
+=== Accepted Order ===
+Order ID: 1
+Original Arrived ID: 12345
+Date: 2026-03-21_12-46-23
+Supplier: kompex
+Items Accepted:
+ - Name: mouse, Amount: 30
+ - Name: keyboard, Amount: 20

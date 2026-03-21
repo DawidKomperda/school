@@ -14,7 +14,7 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // Pre-create some base data
+
         Admin initialAdmin = new Admin();
         initialAdmin.setUsername("admin");
         initialAdmin.setPassword("admin123");
@@ -39,7 +39,7 @@ public class Main {
             Items item = new Items();
             item.setId(storage.getNextAvailableId());
             item.setProductName(itemName);
-            item.setNumber(50); // initial stock
+            item.setNumber(50);
             storage.addItem(item);
         }
         
@@ -104,9 +104,11 @@ public class Main {
         for (BaseUser u : users) {
             if (u.login(uname, pwd)) {
                 currentUser = u;
+                System.out.println(uname + " successfully logged in.");
                 return;
             }
         }
+        System.out.println("Invalid username or password.");
     }
     
     private static void handleManageUsers() {
@@ -117,6 +119,9 @@ public class Main {
         }
         System.out.println("1. Create User");
         System.out.println("2. Delete User");
+        if (currentUser instanceof Admin) {
+            System.out.println("3. Change User Password");
+        }
         System.out.println("0. Back");
         System.out.print("Choice: ");
         String c = scanner.nextLine();
@@ -163,11 +168,33 @@ public class Main {
                 try {
                     if (currentUser.deleteUser(target)) {
                         users.remove(target);
+                        BaseUser.decrementIdCounter();
                         System.out.println("User removed from system list.");
                     }
                 } catch (SecurityException e) {
-                    // Exception message already handled in BaseUser
+
                     System.out.println("Delete failed.");
+                }
+            } else {
+                System.out.println("User not found.");
+            }
+        } else if (c.equals("3") && currentUser instanceof Admin) {
+            System.out.print("Enter ID of user to change password: ");
+            int idToChange = Integer.parseInt(scanner.nextLine());
+            BaseUser target = null;
+            for (BaseUser u : users) {
+                if (u.getId() == idToChange) {
+                    target = u;
+                    break;
+                }
+            }
+            if (target != null) {
+                System.out.print("Enter new password: ");
+                String newPass = scanner.nextLine();
+                try {
+                    currentUser.changeUserPassword(target, newPass);
+                } catch (SecurityException e) {
+                    System.out.println("Change password failed.");
                 }
             } else {
                 System.out.println("User not found.");

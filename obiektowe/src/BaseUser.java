@@ -7,7 +7,7 @@ public abstract class BaseUser {
     private String username;
     private String password;
 
-    // Default constructor for tests
+
     public BaseUser() {
         this.id = idCounter++;
     }
@@ -16,6 +16,12 @@ public abstract class BaseUser {
         this.id = idCounter++;
         this.username = username;
         this.password = password;
+    }
+
+    public static void decrementIdCounter() {
+        if (idCounter > 1) {
+            idCounter--;
+        }
     }
 
     public int getId() { return id; }
@@ -27,10 +33,8 @@ public abstract class BaseUser {
     public boolean login(String inputUsername, String inputPassword) {
         if (this.username != null && this.password != null &&
             this.username.equals(inputUsername) && this.password.equals(inputPassword)) {
-            System.out.println(this.username + " successfully logged in.");
             return true;
         }
-        System.out.println("Invalid username or password.");
         return false;
     }
 
@@ -39,10 +43,10 @@ public abstract class BaseUser {
     protected abstract int getSecurityClearance();
 
     public BaseUser createUser(BaseUser newUser) {
-        // Validate if 'this' user has permission to introduce 'newUser' into the system
+
         if (this.getSecurityClearance() >= 50 && this.getSecurityClearance() >= newUser.getSecurityClearance()) {
             System.out.println(this.getRoleName() + " successfully created/validated " + newUser.getRoleName());
-            // In a real system, you would save 'newUser' to a database or user list here.
+
             return newUser;
         } else {
             throw new SecurityException(this.getRoleName() + " cannot create " + newUser.getRoleName());
@@ -56,6 +60,17 @@ public abstract class BaseUser {
         } else {
             System.out.println(this.getRoleName() + " does not have permission to delete " + userToDelete.getRoleName());
             throw new SecurityException("Permission denied to delete user.");
+        }
+    }
+
+    public boolean changeUserPassword(BaseUser targetUser, String newPassword) {
+        if (this.getSecurityClearance() >= 100) {
+            targetUser.setPassword(newPassword);
+            System.out.println("Password for user " + targetUser.getUsername() + " successfully changed by " + this.getUsername() + ".");
+            return true;
+        } else {
+            System.out.println(this.getRoleName() + " does not have permission to change user passwords.");
+            throw new SecurityException("Permission denied to change password.");
         }
     }
 

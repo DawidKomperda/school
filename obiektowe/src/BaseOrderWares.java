@@ -27,13 +27,9 @@ class OrderNew extends BaseOrderWares implements Approve {
             throw new SecurityException("User does not have privilege to create an Order.");
         }
     }
-    @Override
-    public boolean checkPrivilege(BaseUser user) {
-        return user.canApproveOrders();
-    }
 }
 
-class OrderReturn extends BaseOrderWares implements Approve, StockModifier {
+class OrderReturn extends BaseOrderWares implements Approve, StockReducer {
     private String returnReason;
 
     public OrderReturn(BaseUser user) {
@@ -44,33 +40,39 @@ class OrderReturn extends BaseOrderWares implements Approve, StockModifier {
 
     public String getReturnReason() { return returnReason; }
     public void setReturnReason(String returnReason) { this.returnReason = returnReason; }
+}
 
-    public void changeStock(Storage storage) {
-        for (Items item : getItemsList()) {
-            storage.removeItem(item);
-        }
+class OrderAccept extends BaseOrderWares implements StockAdder {
+    public OrderAccept(BaseUser user) {
     }
+}
 
-    @Override
-    public boolean checkPrivilege(BaseUser user) {
+interface Approve {
+    default boolean checkPrivilege(BaseUser user) {
         return user.canApproveOrders();
     }
 }
 
-class OrderAccept extends BaseOrderWares implements StockModifier {
-    public OrderAccept(BaseUser user) {
-    }
-    public void changeStock(Storage storage) {
+interface StockModifier {
+    void changeStock(Storage storage);
+}
+
+interface StockAdder extends StockModifier {
+    List<Items> getItemsList();
+
+    default void changeStock(Storage storage) {
         for (Items item : getItemsList()) {
             storage.addItem(item);
         }
     }
 }
 
-interface Approve {
-    boolean checkPrivilege(BaseUser user);
-}
+interface StockReducer extends StockModifier {
+    List<Items> getItemsList();
 
-interface StockModifier {
-    void changeStock(Storage storage);
+    default void changeStock(Storage storage) {
+        for (Items item : getItemsList()) {
+            storage.removeItem(item);
+        }
+    }
 }

@@ -1,0 +1,7 @@
+=== New Order ===
+Order ID: 1
+Date: 2026-03-21_12-44-35
+Supplier: mlekowita
+Items:
+ - Name: mleko, Amount: 10
+ - Name: jogurt, Amount: 50

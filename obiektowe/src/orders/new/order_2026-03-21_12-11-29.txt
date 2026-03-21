@@ -1,0 +1,8 @@
+=== New Order ===
+Order ID: 1
+Date: 2026-03-21_12-11-29
+Supplier: monka
+Items:
+ - Name: mleko, Amount: 20
+ - Name: tako, Amount: 100
+ - Name: jajko, Amount: 301

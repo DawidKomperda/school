@@ -1,0 +1,8 @@
+=== Accepted Order ===
+Order ID: 3
+Original Arrived ID: 67890
+Date: 2026-03-21_12-17-12
+Supplier: mlekowita
+Items Accepted:
+ - Name: milk, Amount: 100
+ - Name: cheese, Amount: 50

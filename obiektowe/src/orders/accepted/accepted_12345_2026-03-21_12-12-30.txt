@@ -1,0 +1,8 @@
+=== Accepted Order ===
+Order ID: 2
+Original Arrived ID: 12345
+Date: 2026-03-21_12-12-30
+Supplier: mi
+Items Accepted:
+ - Name: keyboard, Amount: 20
+ - Name: mouse, Amount: 30
