@@ -4,4 +4,4 @@ Some of his moves let him move or attack multiple times / attack a few targets a
 Mage has set points of mana
 Spells deal damage, heal, some linger on the arena, some inflict status effects
 
-c++ made with SFML library for graphics and input handling
+c++ terminal-based project focused on OOP and gameplay systems

@@ -3,14 +3,13 @@
 Structure-only scaffold generated from your idea in `Idea.txt`.
 
 ## Scope
-- C++17 + SFML project layout
+- C++17 terminal project layout
 - Empty class placeholders only
 - No gameplay logic implemented
 
 ## Build Requirements
 - CMake 3.16+
 - C++17 compiler
-- SFML 2.5+
 
 ## Build
 ```bash
@@ -29,5 +28,4 @@ cmake --build build
 - src/spells
 - src/status
 - src/systems
-- assets
 - docs

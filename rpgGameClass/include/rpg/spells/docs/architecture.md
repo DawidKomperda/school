@@ -13,7 +13,6 @@ This repository contains a structure-only setup for a turn-based arena RPG.
 - src/spells
 - src/status
 - src/systems
-- assets
 - docs
 
 ## Notes
