@@ -9,6 +9,7 @@ class Character {
         int lvl;
         int maxHP;
         int hp;
+        int speed;
         int position[2];
 
     public:
@@ -19,6 +20,8 @@ class Character {
         int getLvL() const;
         int getMaxHp() const;
         int getHp() const;
+        int getSpeed() const;
+        void setSpeed(int speed);
         void damageHP(int value);
         void healHP(int value);
         void setPosition(int x, int y);

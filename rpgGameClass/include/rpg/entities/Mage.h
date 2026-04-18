@@ -1,8 +1,10 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "Character.h"
+#include "../spells/SpellEffect.h"
 
 namespace rpg
 {
@@ -12,14 +14,19 @@ namespace rpg
     private:
         int maxMana;
         int mana;
+        std::vector<SpellEffect> spellbook;
 
     public:
         Mage(const std::string &name, int level, int maxHp, int maxMana, int startX = 0, int startY = 0);
 
         int getMaxMana() const;
         int getMana() const;
-        // Spell consumes 10 mana
-        void castSpell();
+        
+        void addSpell(const SpellEffect& spell);
+        const std::vector<SpellEffect>& getSpells() const;
+
+        // Spell consumes mana
+		bool castSpell(Character& target, const SpellEffect& spell);
     };
 
 } // namespace rpg

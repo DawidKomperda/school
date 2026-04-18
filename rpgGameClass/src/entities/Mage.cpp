@@ -2,24 +2,39 @@
 
 namespace rpg {
 Mage::Mage(const std::string& name, int level, int maxHp, int maxMana, int startX, int startY)
-	: Character(name, level, maxHp, startX, startY), mana(maxMana), maxMana(maxMana) {}
+        : Character(name, level, maxHp, startX, startY), maxMana(maxMana), mana(maxMana) {
+        setSpeed(5);
+}
 
 
 int Mage::getMaxMana() const {
-	return maxMana;
+        return maxMana;
 }
 
 int Mage::getMana() const {
-	return mana;
+        return mana;
 }
 
-void Mage::castSpell() {
-	constexpr int kDefaultSpellCost = 10;
-	if (mana < kDefaultSpellCost) {
-		return;
-	}
+void Mage::addSpell(const SpellEffect& spell) {
+        spellbook.push_back(spell);
+}
 
-	mana -= kDefaultSpellCost;
+const std::vector<SpellEffect>& Mage::getSpells() const {
+        return spellbook;
+}
+
+bool Mage::castSpell(Character& target, const SpellEffect& spell) {
+        if (spell.getManaCost() < 0) {
+                return false;
+        }
+
+        if (mana < spell.getManaCost()) {
+                return false;
+        }
+
+        mana -= spell.getManaCost();
+        spell.apply(target);
+        return true;
 }
 
 }  // namespace rpg

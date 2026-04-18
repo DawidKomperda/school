@@ -4,7 +4,9 @@ namespace rpg{
 
     Warrior::Warrior(const std::string& name, int level, int maxHp, int startX, int startY)
     : Character(name, level, maxHp, startX, startY),
-    maxStamina(100), stamina(100), block(0) {}
+    maxStamina(100), stamina(100), block(0) {
+        setSpeed(8);
+}
 
     int Warrior::getMaxStamina() const {
         return maxStamina;
