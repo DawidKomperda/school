@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wiosłarstwo - Edycja danych</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="topnav" aria-label="Nawigacja sekcji">
+      <a href="index.html">Strona główna</a>
+      <a href="wyszukanie.html">Wyszukanie</a>
+      <a href="wprowadzenie.html">Wprowadzenie nowych danych</a>
+      <a class="active" href="edycja.html">Edycja danych</a>
+      <a href="statystyki.html">Statystyki</a>
+    </nav>
+
+    <section class="hero">
+      <div class="eyebrow">Wiosłarstwo • edycja rekordu</div>
+      <h1 class="title">Edycja danych</h1>
+      <p class="subtitle">Wyszukaj wynik, kliknij wiersz, popraw pola w formularzu i zapisz zmiany jednym przyciskiem.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card filters-card">
+        <h2 class="section-title">1. Wyszukiwarka</h2>
+        <form id="searchForm" class="filters" autocomplete="off">
+          <div class="field field--medium">
+            <label for="regattaName">Nazwa regat</label>
+            <input id="regattaName" name="regattaName" list="regattaHints" placeholder="np. Regaty Gryfa" />
+            <datalist id="regattaHints"></datalist>
+          </div>
+
+          <div class="field">
+            <label for="regattaPlace">Miejsce</label>
+            <input id="regattaPlace" name="regattaPlace" placeholder="np. Szczecin" />
+          </div>
+
+          <div class="field field--compact">
+            <label for="raceDate">Data</label>
+            <input id="raceDate" name="raceDate" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="boatType">Typ łodzi</label>
+            <input id="boatType" name="boatType" placeholder="np. 4x" />
+          </div>
+
+          <div class="field field--medium">
+            <label for="categoryDistance">Kategoria / Dystans</label>
+            <select id="categoryDistance" name="categoryDistance">
+              <option value="">Wszystkie</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="raceDistance">Dystans</label>
+            <input id="raceDistance" name="raceDistance" placeholder="np. 2000m" />
+          </div>
+
+          <div class="field">
+            <label for="raceStage">Etap</label>
+            <input id="raceStage" name="raceStage" placeholder="np. finał A" />
+          </div>
+
+          <div class="field field--medium">
+            <label for="athleteName">Zawodnik</label>
+            <input id="athleteName" name="athleteName" placeholder="np. Kowalski, Malinowski albo Jan Kowalski. Kamil Malinowski" />
+          </div>
+
+          <div class="field">
+            <label for="athleteSex">Płeć zawodnika</label>
+            <select id="athleteSex" name="athleteSex">
+              <option value="">Dowolna</option>
+              <option value="M">Mężczyzna</option>
+              <option value="K">Kobieta</option>
+            </select>
+          </div>
+
+          <div class="field field--medium">
+            <label for="clubName">Klub</label>
+            <input id="clubName" name="clubName" placeholder="np. AZS" />
+          </div>
+
+          <div class="field">
+            <label for="clubCity">Miasto klubu</label>
+            <input id="clubCity" name="clubCity" placeholder="np. Szczecin" />
+          </div>
+
+          <div class="field">
+            <label for="lane">Tor</label>
+            <input id="lane" name="lane" placeholder="np. Tor 2" />
+          </div>
+
+          <div class="field">
+            <label for="place">Miejsce</label>
+            <input id="place" name="place" type="number" min="1" step="1" placeholder="np. 1" />
+          </div>
+
+          <div class="field field--compact">
+            <label for="raceTime">Czas</label>
+            <input id="raceTime" name="raceTime" type="text" placeholder="np. 06:12.45" />
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">Szukaj</button>
+            <button type="button" class="btn btn-secondary" id="clearFiltersButton">Wyczyść filtry</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="status results-bar" id="resultsBar">
+        <div>
+          <p class="count" id="resultsCount">Wczytywanie rekordów...</p>
+          <p class="helper">Kliknij wiersz w tabeli, aby przenieść dane do formularza edycji.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="table-wrap">
+          <table aria-label="Wyniki wyszukiwania">
+            <thead>
+              <tr>
+                <th>Regaty</th>
+                <th>Łódź</th>
+                <th>Kategoria</th>
+                <th>Etap</th>
+                <th>Tor</th>
+                <th>Miejsce</th>
+                <th>Osada</th>
+                <th>Miasto klubu</th>
+                <th>Zawodnicy</th>
+                <th>Czas</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="editPanel">
+        <h2 class="panel-title">2. Edytuj zaznaczony wynik</h2>
+        <div class="status" id="selectionStatus">
+          <p class="status-title">Brak zaznaczonego rekordu</p>
+          <p class="status-text">Kliknij wiersz w tabeli, aby wczytać dane do formularza poniżej.</p>
+        </div>
+
+        <form id="editForm">
+          <input type="hidden" id="selectedStartId" name="selectedStartId" />
+
+          <section class="panel" style="margin-top: 18px;">
+            <h3 class="panel-title">Dane wyścigu</h3>
+            <div class="field-grid">
+              <div class="field field--wide">
+                <label for="editRegattaName">Nazwa regat</label>
+                <input id="editRegattaName" name="regattaName" placeholder="np. Regaty Gryfa 2026" required />
+              </div>
+
+              <div class="field">
+                <label for="editRegattaPlace">Miejsce regat</label>
+                <input id="editRegattaPlace" name="regattaPlace" placeholder="np. Szczecin" required />
+              </div>
+
+              <div class="field">
+                <label for="editRaceDate">Data regat</label>
+                <input id="editRaceDate" name="raceDate" type="date" required />
+              </div>
+
+              <div class="field">
+                <label for="editCategory">Kategoria wiekowa</label>
+                <input id="editCategory" name="category" placeholder="np. Seniorzy" required />
+              </div>
+
+              <div class="field">
+                <label for="editDistance">Dystans</label>
+                <input id="editDistance" name="distance" placeholder="np. 2000m" required />
+              </div>
+
+              <div class="field">
+                <label for="editStage">Etap</label>
+                <input id="editStage" name="stage" placeholder="np. finał A" required />
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" style="margin-top: 18px;">
+            <h3 class="panel-title">Osada</h3>
+            <div class="crew-rows" id="crewRows"></div>
+          </section>
+
+          <section class="panel" style="margin-top: 18px;">
+            <div class="actions actions--start">
+              <button type="button" class="btn btn-link" id="clearSelectionButton">Wyczyść wybór</button>
+              <a class="btn btn-secondary" href="index.html">Wróć do wyszukiwania</a>
+              <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+            </div>
+          </section>
+        </form>
+      </section>
+    </div>
+  </main>
+
+<script src="js/shared.js"></script>
+<script src="js/edycja.js"></script>
+</body></html>

@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/**
+ * Interfejs pozwalający klasom posiadającym te uprawnienia do edytowania i zarządzania jednostkami w Storage.
+ * Korzysta z implementacji domyślnej pozwalając poszczególnym rolom od razu wdrożyć metody zarządzania towarem bez ich duplikowania.
+ */
 public interface WareManager {
     default void manageWares(Storage storage) {
         Scanner in = new Scanner(System.in);

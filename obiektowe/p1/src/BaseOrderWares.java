@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasa bazowa dla jednostek zamawianych.
+ * Skupia w sobie logikę listy rzeczy na zamówieniu jak i identyfikację dostawcy tychże przedmiotów.
+ */
 public abstract class BaseOrderWares {
     private static int idCounter = 1;
     private int id;

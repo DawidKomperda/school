@@ -1,3 +1,7 @@
+/**
+ * Klasa Menadżera reprezentująca uprawnienia do zarządzania częścią zaopatrzeniową systemu.
+ * Posiada zdolność realizowania funkcji implementowanych z WareManager.
+ */
 public class Manager extends BaseUser implements WareManager {
 
     public Manager() {

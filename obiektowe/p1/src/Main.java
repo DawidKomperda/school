@@ -7,6 +7,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Główna klasa uruchomieniowa dla Projektu 1 (System Zarządzania Magazynem).
+ * Projekt symuluje proste zasady działania i funkcjonowanie oprogramowania typu WMS (Warehouse Management System).
+ * Udostępnia funkcje logowania dla różnych typów użytkowników (Administrator, Menadżer, Pracownik).
+ * 
+ * Funkcjonalności systemu:
+ * - Przechowywanie informacji o zasobach w pamięci w obiekcie klasy Storage.
+ * - Możliwość dodawania i przeglądania stanów magazynowych.
+ * - Wykonywanie różnych operacji w zależności od przywilejów (Role-Based Access Control - RBAC).
+ * - Obsługa transakcji: sprzedaż produktów oraz ich przyjmowanie.
+ * - Zatwierdzanie nowych dostaw.
+ * 
+ * Poniższa pętla while(true) to główna pętla programu pobierająca wejście z klawiatury za pomocą Scannera
+ * za pomocą którego program sterowany jest z linii komend.
+ */
 public class Main {
     private static List<BaseUser> users = new ArrayList<>();
     private static BaseUser currentUser = null;

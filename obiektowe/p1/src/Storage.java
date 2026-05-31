@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Klasa reprezentująca bazę magazynu, przechowującą fizyczne instancje przedmiotów.
+ * Zarządza inwentarzem (dodawaniem, modyfikacją) dla poszczególnych rodzajów towarów.
+ */
 public class Storage {
     private List<Items> productNames = new ArrayList<>();
     public List<Items> getProductNames() { return productNames; }

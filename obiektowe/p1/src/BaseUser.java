@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * Abstrakcyjna klasa bazowa profilu użytkownika uwierzytelnionego w systemie.
+ * Encapsuluje własności dotyczące nazwy konta, id, czy haseł dostępowych oraz obsługuje operacje 
+ * autentykacji, tworzenia zasobów (w tym użytkowników - pod kątem ewentualnego nadpisywania ze wgl. na role).
+ */
 public abstract class BaseUser {
     private static int idCounter = 1;
 

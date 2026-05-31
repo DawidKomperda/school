@@ -2,6 +2,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Główna klasa uruchomieniowa dla Projektu 2 (System Zarządzania Zleceniami).
+ * Projekt prezentuje rozwiązanie oparte o rozbudowany model dziedziny wykorzystując zaawansowane relacje między obiektami.
+ * Reprezentuje relacje w modelu klient-operator-administrator, gdzie cykl życia zlecenia zależy od statusów modyfikowanych
+ * przez poszczególne role w procesie. 
+ * 
+ * Główne funkcjonalności systemu to m.in.:
+ * - Logowanie w roli Klienta, Operatora bądź Administratora przy pomocy komendy.
+ * - Klient uprawniony jest do tworzenia nowch zleceń, modyfikacji czy też ich edycji/opóźniania.
+ * - Opertor zajmuje się przepisywaniem estymat czasu rozwiązania zadania. Zlecenia mogą być "przyjmowane do realizacji".
+ * - Administratorzy posiadają pełne prawa usuwania zgłoszeń i klientów, działając niczym bóg systemu.
+ * - Baza daych mockowana jest w klasie Database dla ułatwienia testów (in-memory test db).
+ * 
+ * Architektura oparta o wzorzec interaktywnej powłoki (REPL) - użytkownik wpisuje komendy bezpośrednio do konsoli, 
+ * które następnie delegowane są do logiki odpowiednich klas ról posiadających daną sesję.
+ */
 public class Main {
     public static void main(String[] args) {
         Database db = Database.getInstance();

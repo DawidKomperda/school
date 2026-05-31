@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wioslarstwo - Statystyki</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="topnav" aria-label="Nawigacja sekcji">
+      <a href="index.html">Strona główna</a>
+      <a href="wyszukanie.html">Wyszukanie</a>
+      <a href="wprowadzenie.html">Wprowadzenie nowych danych</a>
+      <a href="edycja.html">Edycja danych</a>
+      <a class="active" href="statystyki.html">Statystyki</a>
+    </nav>
+
+    <section class="hero">
+      <div class="eyebrow">Wioslarstwo • analiza danych</div>
+      <h1 class="title">Statystyki projektu</h1>
+      <p class="subtitle">
+        Szybki dashboard pod zaliczenie: liczba startow, regat, klubow, zawodnikow i wykresy
+        pokazujace jak rozkladaja sie dane w Twojej bazie.
+      </p>
+    </section>
+
+    <div class="stack">
+      <section class="status" id="statsStatus" aria-live="polite">
+        <h2 class="status-title">Ladowanie statystyk</h2>
+        <p class="status-text">Pobieram dane z API /api/stats...</p>
+      </section>
+
+      <section class="kpi-grid" id="kpiGrid" aria-label="Podstawowe statystyki">
+        <article class="kpi-card">
+          <p class="kpi-label">Starty</p>
+          <p class="kpi-value" id="kpiStarts">-</p>
+        </article>
+        <article class="kpi-card">
+          <p class="kpi-label">Regaty</p>
+          <p class="kpi-value" id="kpiRegattas">-</p>
+        </article>
+        <article class="kpi-card">
+          <p class="kpi-label">Kluby</p>
+          <p class="kpi-value" id="kpiClubs">-</p>
+        </article>
+        <article class="kpi-card">
+          <p class="kpi-label">Zawodnicy</p>
+          <p class="kpi-value" id="kpiAthletes">-</p>
+        </article>
+      </section>
+
+      <section class="stats-grid">
+        <article class="card chart-card">
+          <h2 class="section-title">Top 10 klubow wg liczby startow</h2>
+          <p class="helper">Pokazuje aktywnosc klubow w bazie.</p>
+          <div class="chart-wrap local-chart" id="clubsChart" aria-label="Wykres klubow" role="img">
+            <p class="helper">Brak danych do wyswietlenia.</p>
+          </div>
+        </article>
+
+        <article class="card chart-card">
+          <h2 class="section-title">Popularnosc klas lodzi</h2>
+          <p class="helper">Ktore typy lodzi pojawiaja sie najczesciej.</p>
+          <div class="chart-wrap local-chart" id="boatsChart" aria-label="Wykres klas lodzi" role="img">
+            <p class="helper">Brak danych do wyswietlenia.</p>
+          </div>
+        </article>
+
+        <article class="card chart-card">
+          <h2 class="section-title">Kategorie wiekowe</h2>
+          <p class="helper">Liczba startow w podziale na kategorie.</p>
+          <div class="chart-wrap local-chart" id="categoriesChart" aria-label="Wykres kategorii" role="img">
+            <p class="helper">Brak danych do wyswietlenia.</p>
+          </div>
+        </article>
+
+        <article class="card chart-card">
+          <h2 class="section-title">Podzial zawodnikow wg plci</h2>
+          <p class="helper">Dane na podstawie tabeli ZAWODNICY.</p>
+          <div class="chart-wrap chart-wrap--small local-chart" id="gendersChart" aria-label="Wykres plci" role="img">
+            <p class="helper">Brak danych do wyswietlenia.</p>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+<script src="js/shared.js"></script>
+<script src="js/statystyki.js"></script>
+</body></html>

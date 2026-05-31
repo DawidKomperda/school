@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wiosłarstwo - Wprowadzenie nowych danych</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="topnav" aria-label="Nawigacja sekcji">
+      <a href="index.html">Strona główna</a>
+      <a href="wyszukanie.html">Wyszukanie</a>
+      <a class="active" href="wprowadzenie.html">Wprowadzenie nowych danych</a>
+      <a href="edycja.html">Edycja danych</a>
+      <a href="statystyki.html">Statystyki</a>
+    </nav>
+
+    <section class="hero">
+      <div class="eyebrow">Wiosłarstwo • zapis nowego wyniku</div>
+      <h1 class="title">Wprowadzenie nowych danych</h1>
+      <p class="subtitle">
+        Uzupełnij dane regat, wyścigu, osady, zawodników i startu. Formularz zapisuje komplet informacji do bazy
+        i od razu tworzy powiązane rekordy pomocnicze, jeśli jeszcze nie istnieją.
+      </p>
+    </section>
+
+    <div class="stack">
+      <section class="status" id="statusBox" aria-live="polite">
+        <h2 class="status-title">Gotowe do zapisu</h2>
+        <p class="status-text">Wypełnij pola niżej i kliknij "Zapisz dane".</p>
+      </section>
+
+      <form class="form" id="entryForm">
+        <section class="panel">
+          <h2 class="panel-title">1. Regaty i wyścig</h2>
+          <div class="field-grid">
+            <div class="field field--wide">
+              <label for="regattaName">Nazwa regat</label>
+              <input id="regattaName" name="regattaName" placeholder="np. Regaty Gryfa 2026" required />
+            </div>
+
+            <div class="field">
+              <label for="regattaPlace">Miejsce regat</label>
+              <input id="regattaPlace" name="regattaPlace" placeholder="np. Szczecin" required />
+            </div>
+
+            <div class="field">
+              <label for="raceDate">Data</label>
+              <input id="raceDate" name="raceDate" type="date" required />
+            </div>
+
+            <div class="field">
+              <label for="boatType">Typ łodzi</label>
+              <select id="boatType" name="boatType" required>
+                <option value="1x">1x</option>
+                <option value="2x">2x</option>
+                <option value="2-">2-</option>
+                <option value="4x" selected>4x</option>
+                <option value="4-">4-</option>
+                <option value="4+">4+</option>
+                <option value="8+">8+</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="category">Kategoria wiekowa</label>
+              <input id="category" name="category" placeholder="np. Seniorzy" required />
+            </div>
+
+            <div class="field">
+              <label for="distance">Dystans</label>
+              <input id="distance" name="distance" placeholder="np. 2000m" required />
+            </div>
+
+            <div class="field">
+              <label for="stage">Etap</label>
+              <input id="stage" name="stage" placeholder="np. finał A" required />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title">2. Osady</h2>
+          <div class="crew-rows" id="crewRows"></div>
+          <div class="actions actions--start">
+            <button type="button" class="btn btn-secondary" id="addCrewButton">Dodaj osadę</button>
+          </div>
+          <p class="helper">Każda osada ma własną nazwę, klub, tor, miejsce, czas i skład zawodników.</p>
+        </section>
+
+        <section class="panel">
+          <div class="actions">
+            <button type="button" class="btn btn-link" id="resetButton">Wyczyść formularz</button>
+            <a class="btn btn-secondary" href="index.html">Przejdź do wyszukiwania</a>
+            <button type="submit" class="btn btn-primary">Zapisz dane</button>
+          </div>
+        </section>
+      </form>
+    </div>
+  </main>
+
+<script src="js/shared.js"></script>
+<script src="js/wprowadzenie.js"></script>
+</body></html>

@@ -1,3 +1,8 @@
+/**
+ * Klasa reprezentująca role Administratora w systemie.
+ * Administrator dziedziczy podstawowe cechy BaseUsera oraz posiada dostęp do 
+ * zarządzania poszczególnymi elementami magazynu zaimplementowanymi w interfejsie WareManager.
+ */
 public class Admin extends BaseUser implements WareManager {
 
     public Admin() {
