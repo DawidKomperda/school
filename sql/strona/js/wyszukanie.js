@@ -1,3 +1,5 @@
+// Plik wyszukanie.js
+// Zajmuje sie logika filtrowania i tworzenia wygenerowanej tabeli wyszukiwania regat.
   
     const form = document.getElementById("searchForm");
     const regattaNameInput = document.getElementById("regattaName");
@@ -41,6 +43,7 @@
       raceTime: ""
     };
 
+    // Sprawdza, czy przekazany łańcuch znaków zawiera poszukiwane słowo wejściowe uodparniając szukanie od wielkości liter.
     function matchesText(source, query) {
       return String(source || "").toLowerCase().includes(String(query || "").toLowerCase());
     }
@@ -127,6 +130,7 @@
       categoryDistanceSelect.value = options.includes(currentSelection) ? currentSelection : "";
     }
 
+    // Buduje i odświeża główną tabelę wyników dla HTML w miejscu `resultsBody`
     function renderTable(records) {
       resultsBody.innerHTML = "";
       resultsBar.classList.add("visible");
@@ -164,6 +168,7 @@
       });
     }
 
+    // Główna funkcja wykonująca filtrowanie u użytkownika na podstawie wcześniej wpisanych kluczy
     function getFilteredRecords() {
       const athleteQueries = splitMultiValue(currentFilters.athleteName);
 
@@ -187,6 +192,7 @@
       });
     }
 
+    // Generuje eksport danych do pliku CSV z aktualnego widoku i wyzwala automatyczne pobieranie w przeglądarce
     function exportCsv(records) {
       const headers = [
         "Data i regaty",
@@ -298,6 +304,7 @@
       printWindow.document.close();
     }
 
+    // Odczytuje bazę pobierając zasób /api/records i wpisuje odebrane dane
     async function loadRecords(filters = {}) {
       const query = new URLSearchParams();
 

@@ -1,3 +1,6 @@
+// Główny plik serwera Node.js. 
+// Udostępnia panel frontendowy w Express.js i wystawia lokalne REST API do manipulacji danymi w bazie.
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -158,6 +161,7 @@ const SELECT_START_DETAILS_SQL = `
   LEFT JOIN ZAWODNICY Z ON SK.Id_Zawodnika = Z.Id_Zawodnika
 `;
 
+// Endpoint pobierający listę wyników startów z możliwością zaawansowanego filtrowania
 app.get('/api/records', async (req, res) => {
   try {
     const regattaName = trimText(req.query.regattaName);
@@ -264,6 +268,7 @@ app.get('/api/records', async (req, res) => {
   }
 });
 
+// Endpoint pobierający szczegółowe informacje o wybranym starcie na podstawie jego ID
 app.get('/api/records/:startId', async (req, res) => {
   try {
     const [rows] = await pool.execute(
@@ -283,6 +288,7 @@ app.get('/api/records/:startId', async (req, res) => {
   }
 });
 
+// Endpoint aktualizujący dane konkretnego startu
 app.put('/api/records/:startId', async (req, res) => {
   const connection = await pool.getConnection();
 
@@ -339,6 +345,7 @@ app.put('/api/records/:startId', async (req, res) => {
   }
 });
 
+// Endpoint odpowiedzialny za dodawanie nowego startu do bazy. W razie błędu cała operacja jest wycofywana.
 app.post('/api/records', async (req, res) => {
   const connection = await pool.getConnection();
 
@@ -428,6 +435,7 @@ app.post('/api/records', async (req, res) => {
   }
 });
 
+// Endpoint agregujący dane dla dashboardu, obliczający m.in. liczebność grup oraz ogólne wyniki
 app.get('/api/stats', async (req, res) => {
   try {
     const [[totals]] = await pool.execute(`

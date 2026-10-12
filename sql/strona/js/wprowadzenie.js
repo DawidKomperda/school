@@ -1,3 +1,7 @@
+// Plik wprowadzenie.js
+// Zajmuje sie obsluga formularza wprowadzajacego nowe wyscigi.
+// Posiada tez obsluge powielania osady dla roznych lodzi.
+
   
     const form = document.getElementById('entryForm');
     const statusBox = document.getElementById('statusBox');
@@ -8,6 +12,7 @@
 
 
 
+    // Zwraca maksymalną ilość wioślarzy według typu danej łodzi z zadeklarowanej wcześniej globalnej mapy limitów.
     function getBoatLimit() {
       return BOAT_TYPE_LIMITS[boatType.value] || 1;
     }
@@ -16,6 +21,7 @@
       return `${limit} ${limit === 1 ? 'miejsce' : 'miejsc'} w łodzi`;
     }
 
+    // Odpowiada za dostarczenie nowego wiersza DOM dla nowego zawodnika w wyciętym fragmencie karty dla osady. 
     function createAthleteRow(data = {}, crewCard) {
       const row = document.createElement('div');
       row.className = 'athlete-row';
@@ -97,6 +103,7 @@
       }
     }
 
+    // Generuje widok "karty" pozwalającej uzupełnić cały skład zawodników dla danej osady
     function createCrewCard(data = {}) {
       const crewCard = document.createElement('div');
       crewCard.className = 'crew-card';
@@ -212,6 +219,7 @@
       `;
     }
 
+    // Inicjuje asynchroniczne wysłanie przygotowanego nowego wpisu używając POST na /api/records. Określa również wycofanie się ze zdarzenia standardowego "wstrzymania wysyłania HTML"
     async function submitEntry(event) {
       event.preventDefault();
 

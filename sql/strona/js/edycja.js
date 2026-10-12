@@ -1,3 +1,7 @@
+// Plik edycja.js
+// Sluzy do edytowania poszczegolnych startow za posrednictwem tabeli wyszukiwania i interaktywnego formularza na stronie.
+// Zapewnia polaczenie metod REST (GET / PUT) dla danego zasobu.
+
   
 
     const searchForm = document.getElementById('searchForm');
@@ -45,6 +49,7 @@
     let athleteRowCounter = 0;
 
 
+    // Normalizuje wejście, co pozwala na niezawodne odczytanie oraz odfiltrowanie danych w wyszukiwarce wewnętrznej
     function normalizeText(value) {
       return String(value ?? '').trim();
     }
@@ -90,6 +95,7 @@
       return BOAT_TYPE_LIMITS[boatType?.value] || 1;
     }
 
+    // Tworzy dynamiczne filtry z wszystkich uzupełnionych wejść formularza wyszukiwania
     function getSearchFilters() {
       return {
         regattaName: normalizeText(searchInputs.regattaName.value),
@@ -236,6 +242,7 @@
       });
     }
 
+    // Przesyła asynchronicznie odpytanie GET do API dla wyszukania listy edytowalnych rekordów opartych na podanym zapytaniu query.
     async function loadRecords() {
       const query = buildQuery(getSearchFilters());
       const url = query ? `/api/records?${query}` : '/api/records';
@@ -448,6 +455,7 @@
       })).filter((athlete) => athlete.firstName && athlete.lastName && athlete.birthDate && athlete.sex);
     }
 
+    // Pobiera i parsuje zebrany model DOM modyfikowanego rekordu i zwraca jego paczkę zgodną ze standardem przyjętym dla endpointa PUT.
     function buildEditPayload() {
       const crewCard = crewRows.querySelector('.crew-card');
 
@@ -473,6 +481,7 @@
       };
     }
 
+    // Konfiguruje i aktywuje formularz edycji danymi zwróconych ze szczegółów wpisu z bazy
     function populateEditForm(record) {
       selectedStartId = record.startId;
       selectedStartIdInput.value = record.startId;
@@ -543,6 +552,7 @@
       setSelectionMessage('Brak zaznaczonego rekordu', 'Kliknij wiersz w tabeli, aby wczytać dane do formularza poniżej.', '');
     }
 
+    // Wysyła zapytanie zatwierdzające za pomocą metody PUT do backendu serwera Node.js i reaguje na możliwe błędy.
     async function submitEdit(event) {
       event.preventDefault();
 

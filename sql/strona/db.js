@@ -1,3 +1,6 @@
+// Plik db.js obsługuje połączenie z bazą MySQL oraz zawiera funkcje pomocnicze
+// do zarządzania relacjami w bazie ("upsert" - pobierz lub stwórz), co zapobiega dublowaniu encji.
+
 import mysql from 'mysql2/promise';
 
 export const pool = mysql.createPool({
@@ -20,10 +23,12 @@ export const BOAT_TYPE_MAP = {
   '8+': { liczba_osob: 8, czy_sternik: 1 }
 };
 
+// Oczyszcza ciąg znaków z białych znaków, zwraca pusty string przy ich braku
 export function trimText(value) {
   return String(value ?? '').trim();
 }
 
+// Zamienia pusty ciąg w odpowiednik NULL bazy danych
 export function toNullableText(value) {
   const text = trimText(value);
   return text.length ? text : null;
@@ -37,6 +42,7 @@ export function toNullableDate(value) {
   return parsed.toISOString().split('T')[0];
 }
 
+// Zmienia wprowadzony czas na formę dziesiętną w sekundach
 export function timeToSeconds(timeStr) {
   if (!timeStr) return null;
   const parts = String(timeStr).trim().split(':');
@@ -50,6 +56,7 @@ export function timeToSeconds(timeStr) {
   return null;
 }
 
+// Sprawdza czy dany klub już istnieje w bazie (ignorując wielkość liter), w przeciwnym razie go dodaje i zwraca ID
 export async function getOrCreateClub(connection, name, city) {
   const clubName = trimText(name);
   const clubCity = toNullableText(city);
@@ -70,6 +77,7 @@ export async function getOrCreateClub(connection, name, city) {
   return result.insertId;
 }
 
+// Pobiera lub tworzy wpis regat w tablicy REGATY by zachować spójność miejsca i daty
 export async function getOrCreateRegatta(connection, name, place, date) {
   const rName = trimText(name);
   const rPlace = toNullableText(place);

@@ -1,6 +1,7 @@
 // shared.js
-// Global constants and generic helper functions
+// Plik zawiera globalne stałe i uniwersalne funkcje pomocnicze używane na stronach aplikacji.
 
+// Słownik określający maksymalną liczbę zawodników dla danego typu łodzi.
 const BOAT_TYPE_LIMITS = {
   '1x': 1,
   '2x': 2,
@@ -11,6 +12,7 @@ const BOAT_TYPE_LIMITS = {
   '8+': 8
 };
 
+// Funkcja zabezpieczająca przed atakami XSS poprzez zamianę znaków specjalnych HTML na ich encje.
 function escapeHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -20,6 +22,7 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
+// Funkcja formatująca czas w sekundach na format minutowy i sekundowy (mm:ss.setne).
 function formatSecondsForDisplay(totalSeconds) {
   if (totalSeconds === null || totalSeconds === undefined || totalSeconds === '') return '';
   const num = Number(totalSeconds);
